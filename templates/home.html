@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<!-- This is a comment -->
+
+	<title>HomePage</title>
+
+	<!-- Link Bootstrap -->
+	<!-- Instead of creating a new stylesheet, using Bootstrap Stylesheet Properties --> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+
+</head>
+
+
+
+<body class="border border-5 border-info m-3 pb-3 shadow">
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 25px;">
+	</table>
+
+<!-- Image under creative commons liscence --> 
+<!-- Link Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fopenclipart.org%2Fdetail%2F275845%2Fsimple-house-line-art&psig=AOvVaw1Qmy06dvnan0TrPJJgs3-H&ust=1617918553823000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDMv_-O7e8CFQAAAAAdAAAAABAD -->
+<div style="text-align:center">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6p0ARtRpeZDeiwNm6XOqvEXUev0lwBohBuQ&usqp=CAU" width="25%">
+</div>
+
+
+	<h1 class="font-weight-bold" style="text-align:center" id="TopOfPage">Calgary Community Housing Map</h1>
+	
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+	
+
+	<div class="table-responsive">
+	<table class="mx-auto w-auto" style="height: 100px;" style="width: 50%;">
+	  <tbody>
+	    <tr>
+	      <td class="align-top"><h5><i>Deciding on a community to live in can be dificult.... </i></h5></td>
+	      <td class="align-middle"><h5><i> let our interactive map help you!</i></h5></td>
+	    </tr>
+	  </tbody>
+	</table>
+	</div>
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 20px;">
+	</table>
+
+	<div style="text-align:center">
+		<h6> You Must Have An Account To Access The Full Map & Database Capabilities! </h6>
+		<h6> You Are Currently <span class="font-weight-bold"><u> NOT</u></span> Signed Into An Account </h6>
+		<h6> Please Sign Up or Sign In Below </h6>
+	</div>
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 30px;">
+	</table>
+
+	<!-- Login Form -->
+	<div class="container">
+	  <div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	        <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                        <p class="font-weight-bold">Don't Have An Account Yet?</p>
+			<p>Sign Up Here!</p>
+			<form action = "{{url_for('signup') }}" >
+				<div>
+				<button> Sign up! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>
+   	 <div class="col-md-auto">
+	<div class="border border-info shadow rounded h-100">
+    	  <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                       <p class="font-weight-bold">Already have an account?</p>
+			<p>Sign In Here!</p>
+			<form action = "{{url_for('signin') }}" >
+				<div>
+				<button> Sign in! </button>
+				</div>
+			</form>
+		</div>
+                </div>
+		</div>
+    		</div>
+  	</div>
+	</div>
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div class="font-italic" style="text-align:center">
+		<h5> View The Calgary Area Below! </h6>
+		<h6> Calgary Basemap Courtesy of Google Maps API </h6>
+	</div>
+
+	<!-- Google Maps Static API -->
+	<!-- Bonus API I found to enhance the home page idk, can replace with mapbox, but its basically a google map Embed -->
+	<!-- https://developers.google.com/maps/documentation/embed/embedding-map#view_mode -->
+	<!-- Google Maps API Key Created for this API: AIzaSyBLe-y1aqkphQiBt1t86qtsyGAheb_Bdac -->
+	<div class="row justify-content-md-center">
+	<div class="border border-5 border-info mx-5 pt-2 pb-1 shadow w-50" style="text-align:center">
+
+			<iframe width="600" 
+			height="450" 
+			style="border:0" 
+			loading="lazy" 
+			allowfullscreen 
+			src="https://www.google.com/maps/embed/v1/view?zoom=10&center=51.0447%2C-114.0719&key=AIzaSyBLe-y1aqkphQiBt1t86qtsyGAheb_Bdac"></iframe>	
+
+		</div>
+	</div>
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<hr>
+	
+	<div class="container">
+	  <div class="row justify-content-md-center">
+	    <div class="font-italic" style="text-align:center">
+	        <p> This website has been designed for the University of Calgary, Department of Geomatics Engineering,</p>
+		<p> Winter 2021, ENGO 551:Advanced Geospatial Topics Final Project. </p>
+  	  </div>
+	</div>
+	</div>
+
+	<div style="text-align:center">
+	<div class="font-italic">
+		<ul style ="list-style-position: inside"> 
+			This Website is Created by:
+                	<li> Alekhya Bhamidipati </li>
+                	<li> Madison Marriott</li>
+                	<li> Tanya Hegmann</li>
+            	</ul>
+	</div>
+	</div
+
+
+</body>
+
+</html>

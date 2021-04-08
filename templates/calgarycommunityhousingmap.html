@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<!-- This is a comment -->
+
+	<title>CalgaryCommunityHousingMap</title>
+
+	<!-- Link Bootstrap -->
+	<!-- Instead of creating a new stylesheet, using Bootstrap Stylesheet Properties --> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+
+
+	<!-- Content for Mapbox and Turf -->
+	<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+
+
+</head>
+
+<!-- Set up Quick Style -->
+<style>
+
+#map-container {
+    position: relative;
+    height: 600px;
+    width: 100%;
+}
+
+#map {
+    position: relative;
+    height: inherit;
+    width: inherit;
+}
+
+</style>
+
+<body class="border border-5 border-info m-3 pb-3 shadow">
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 25px;"> </table>
+
+	<!-- Image under creative commons liscence --> 
+	<!-- Link Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fopenclipart.org%2Fdetail%2F275845%2Fsimple-house-line-art&psig=AOvVaw1Qmy06dvnan0TrPJJgs3-H&ust=1617918553823000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDMv_-O7e8CFQAAAAAdAAAAABAD -->
+	<div style="text-align:center">
+		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6p0ARtRpeZDeiwNm6XOqvEXUev0lwBohBuQ&usqp=CAU" width="25%">
+	</div>
+
+
+	<h1 class="font-weight-bold" style="text-align:center" id="TopOfPage">Calgary Community Housing Map</h1>
+	
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div style="text-align:center">
+		<h3><b> Access The Full Search Calgary Community Housing Map Below</b></h3>
+	</div>
+		
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+
+	<!-- ******* Start Map Information ******* --> 
+
+
+
+
+	<div style="text-align:center">
+		<h6><b> More Map Text/search bar here???</b></h6>
+		<h6> Idk placeholder</h6>
+		<h6> TBA </h6>
+	</div>
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;"></table>
+
+	
+	
+	<!-- Set Up Map Paramaters -->
+	<div style="outline: 4px solid #17a2b8">
+		<!-- Create Div for Map -->
+		<div id="map-container">
+	  		<div id="map">
+	 		 </div>
+		</div>
+	</div> <!-- End of border div -->
+	
+	
+	<!-- Mapbox script -->
+	<script>
+
+		mapboxgl.accessToken = 'pk.eyJ1IjoidGhlZ21hbm4iLCJhIjoiY2tsendrbzc2MW44bTJucGIwcGthajVvZCJ9.Oma0SwAX6kXvnw_T66TXHQ';
+		var map = new mapboxgl.Map({
+		  container: 'map',
+		  style: 'mapbox://styles/mapbox/light-v10', 
+		<!-- Calgary Coordinates 51.0447, -114.0719 -->
+		  center: [-114.0719, 51.0447],
+		  zoom: 10 
+		});
+
+	</script>
+
+	
+
+
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+
+	<div style="text-align:center">
+		<h6><b> Map Legend Details here </b></h6>
+		<h6> Can throw Results into a Bootstrap Table Too to make sure site looks nice? </h6>
+		<h6> For example, table below for legend (mock up) - maybe can show results nicely in a table too? </h6>
+	</div>
+
+
+
+	<!-- Mock up Legend --> 
+		<!-- Images below linked from Icon in Mapbox GL Styles --> 
+		<!-- Link for more symbols: https://github.com/mapbox/mapbox-gl-styles -->
+
+		<div class="container w-50" style="text-align:center">
+		<div class="border border-info shadow rounded h-100 w-90">
+		<table class="table table-bordered table-striped">
+		  <thead class="active">
+		    <tr>
+		      <th scope="col">Symbol</th>
+		      <th scope="col">Meaning</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row"> 
+			<img src="https://camo.githubusercontent.com/f2889eadada094c8c47a469ef3dd08290fa75c069ca3bb900bd2be3a9d4c778e/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f636f6c6c6567652d31352e737667" width="30%">
+		      </th>
+		      <td>Nearest Location of School</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/e9581daa5654d13d9ceee13b2d9ee8885a2d73d93e7a065234e2c53d5f1aff3f/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f666972652d73746174696f6e2d31352e737667" width="30%">
+			</th>
+		      <td>Nearest Location of Fire Station</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/3ced548396ac9791afd482f524d7a4b348dc616a2c7230b70b0b497dd5094c72/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f7061726b2d31352e737667" width="30%">
+			</th>
+		      <td>Nearest Park Location</td>
+		    </tr>
+		  </tbody>
+		</table>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!-- ******* End Map Information (Closing Style Buttons Below) ******* --> 
+
+	<hr> 
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div class="container">
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                        <p class="font-weight-bold">Refresh The Map?</p>
+			<p>Click here to Refresh Page</p>
+			<form action = "{{url_for('calgarycommunityhousingmap') }}" method="post">
+				<div>
+				<button> Refresh map! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>  
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                        <p class="font-weight-bold">Would you like to return to the home page?</p>
+			<p>Click here to Return Home</p>
+			<form action = "{{url_for('index') }}" >
+				<div>
+				<button> Return to Home! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>
+   	 <div class="col-md-auto">
+	<div class="border border-info shadow rounded h-100">
+    	  <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                       <p class="font-weight-bold">Log-out of your account?</p>
+			<p>Click here to Log-Out!</p>
+			<form action = "{{url_for('logout') }}" method="post">
+				<div>
+				<button> Log-Out! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+                </div>
+    		</div>
+  	</div>
+	</div>
+
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<hr>
+
+	<div style="text-align:center">
+	<div class="font-italic">
+		You are currently signed in under the username <span class="font-weight-bold"><u> {{username}} </u></span>
+	</div>
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 20px;">
+	</table>
+
+	<a href="#TopOfPage" class="text-secondary">Click to Return to Top of WebPage</a>
+	</div>
+
+
+</body>
+
+</html>

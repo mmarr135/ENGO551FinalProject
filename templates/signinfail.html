@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<!-- This is a comment -->
+
+	<title>SignUpFail</title>
+
+	<!-- Link Bootstrap -->
+	<!-- Instead of creating a new stylesheet, using Bootstrap Stylesheet Properties --> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+
+</head>
+
+<body class="border border-5 border-info m-3 pb-3 shadow">
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 25px;">
+	</table>
+
+<!-- Image under creative commons liscence --> 
+<!-- Link Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fopenclipart.org%2Fdetail%2F275845%2Fsimple-house-line-art&psig=AOvVaw1Qmy06dvnan0TrPJJgs3-H&ust=1617918553823000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDMv_-O7e8CFQAAAAAdAAAAABAD -->
+<div style="text-align:center">
+	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6p0ARtRpeZDeiwNm6XOqvEXUev0lwBohBuQ&usqp=CAU" width="25%">
+</div>
+
+
+	<h1 class="font-weight-bold" style="text-align:center" id="TopOfPage">Calgary Community Housing Map</h1>
+	
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div style="text-align:center">
+		<h3><b> You Are Unable To Be Signed In!</b></h3>
+		<h3> Using the Username <span class="font-weight-bold"><u> {{username}} </u></span> </h3>
+		<h6> Please Note The Following: </h6>
+		<ul style ="list-style-position: inside"> 
+                	<li> Sign-In entries are case-sensitive </li>
+			<li> Your password must match the one you signed up with</li>
+            	</ul>
+	</div>
+		
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div style="text-align:center">
+		<h6> You Must Be Logged Into An Account To Access The Full Map & Database Capabilities! </h6>
+		<h6> Please select one of the following options: </h6>
+	</div>
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+
+
+	<div class="container">
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                       <p class="font-weight-bold">Try signing in again?</p>
+			<p>Click here to Sign-In!</p>
+			<form action = "{{url_for('signin') }}" >
+				<div>
+				<button> Sign in! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>
+	  <div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                        <p class="font-weight-bold">Would you like to return to the home page?</p>
+			<p>Click here to Return Home</p>
+			<form action = "{{url_for('index') }}" >
+				<div>
+				<button> Return to Home! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>
+   	 <div class="col-md-auto">
+	<div class="border border-info shadow rounded h-100">
+    	  <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                       <p class="font-weight-bold">Need to create a new account?</p>
+			<p>Click here to Sign-Up!</p>
+			<form action = "{{url_for('index') }}" >
+				<div>
+				<button> Sign Up! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+                </div>
+    		</div>
+  	</div>
+	</div>
+
+
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+</body>
+
+</html>
+	
