@@ -7,7 +7,7 @@
 	<title>CalgaryCommunityHousingMap</title>
 
 	<!-- Link Bootstrap -->
-	<!-- Instead of creating a new stylesheet, using Bootstrap Stylesheet Properties --> 
+	<!-- Instead of creating a new stylesheet, using Bootstrap Stylesheet Properties -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
 
 
@@ -41,7 +41,7 @@
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 25px;"> </table>
 
-	<!-- Image under creative commons liscence --> 
+	<!-- Image under creative commons liscence -->
 	<!-- Link Credit: https://www.google.com/url?sa=i&url=https%3A%2F%2Fopenclipart.org%2Fdetail%2F275845%2Fsimple-house-line-art&psig=AOvVaw1Qmy06dvnan0TrPJJgs3-H&ust=1617918553823000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPDMv_-O7e8CFQAAAAAdAAAAABAD -->
 	<div style="text-align:center">
 		<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6p0ARtRpeZDeiwNm6XOqvEXUev0lwBohBuQ&usqp=CAU" width="25%">
@@ -49,7 +49,7 @@
 
 
 	<h1 class="font-weight-bold" style="text-align:center" id="TopOfPage">Calgary Community Housing Map</h1>
-	
+
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
 	</table>
@@ -57,28 +57,31 @@
 	<div style="text-align:center">
 		<h3><b> Access The Full Search Calgary Community Housing Map Below</b></h3>
 	</div>
-		
+
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
 	</table>
 
 
-	<!-- ******* Start Map Information ******* --> 
+	<!-- ******* Start Map Information ******* -->
 
-
-
-
-	<div style="text-align:center">
-		<h6><b> More Map Text/search bar here???</b></h6>
-		<h6> Idk placeholder</h6>
-		<h6> TBA </h6>
-	</div>
+<form method="POST" action="{{ url_for('calgarycommunityhousingmap')}}">
+	<div class="form-group">
+            <select class="form-control" name="community">
+                  <option value="" disabled selected>Select a Community</option>
+									{% for community in communities %}
+  									<option>{{community}}</option>
+									{% endfor %}
+            </select>
+						<button class="btn btn-primary"> Submit </button>
+    </div>
+</form>
 
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;"></table>
 
-	
-	
+
+
 	<!-- Set Up Map Paramaters -->
 	<div style="outline: 4px solid #17a2b8">
 		<!-- Create Div for Map -->
@@ -87,23 +90,58 @@
 	 		 </div>
 		</div>
 	</div> <!-- End of border div -->
-	
-	
+
+
 	<!-- Mapbox script -->
 	<script>
 
 		mapboxgl.accessToken = 'pk.eyJ1IjoidGhlZ21hbm4iLCJhIjoiY2tsendrbzc2MW44bTJucGIwcGthajVvZCJ9.Oma0SwAX6kXvnw_T66TXHQ';
 		var map = new mapboxgl.Map({
 		  container: 'map',
-		  style: 'mapbox://styles/mapbox/light-v10', 
+		  style: 'mapbox://styles/mapbox/light-v10',
 		<!-- Calgary Coordinates 51.0447, -114.0719 -->
 		  center: [-114.0719, 51.0447],
-		  zoom: 10 
+		  zoom: 10
 		});
+
+var bound={{bound|tojson}};
+
+console.log(bound)
+
+		map.on('load', function () {
+	// Add a data source containing GeoJSON data.
+	map.addSource('communities', {
+	'type': 'geojson',
+	'data': bound[0]
+	});
+
+	// Add a new layer to visualize the polygon.
+	map.addLayer({
+	'id': 'fill',
+	'type': 'fill',
+	'source': 'communities', // reference the data source
+	'layout': {},
+	'paint': {
+	'fill-color': '#0080ff', // blue color fill
+	'fill-opacity': 0.5
+	}
+	});
+	// Add a black outline around the polygon.
+	map.addLayer({
+	'id': 'outline',
+	'type': 'line',
+	'source': 'communities',
+	'layout': {},
+	'paint': {
+	'line-color': '#000',
+	'line-width': 3
+	}
+	});
+	});
 
 	</script>
 
-	
+
 
 
 
@@ -120,8 +158,8 @@
 
 
 
-	<!-- Mock up Legend --> 
-		<!-- Images below linked from Icon in Mapbox GL Styles --> 
+	<!-- Mock up Legend -->
+		<!-- Images below linked from Icon in Mapbox GL Styles -->
 		<!-- Link for more symbols: https://github.com/mapbox/mapbox-gl-styles -->
 
 		<div class="container w-50" style="text-align:center">
@@ -135,7 +173,7 @@
 		  </thead>
 		  <tbody>
 		    <tr>
-		      <th scope="row"> 
+		      <th scope="row">
 			<img src="https://camo.githubusercontent.com/f2889eadada094c8c47a469ef3dd08290fa75c069ca3bb900bd2be3a9d4c778e/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f636f6c6c6567652d31352e737667" width="30%">
 		      </th>
 		      <td>Nearest Location of School</td>
@@ -162,9 +200,9 @@
 
 
 
-	<!-- ******* End Map Information (Closing Style Buttons Below) ******* --> 
+	<!-- ******* End Map Information (Closing Style Buttons Below) ******* -->
 
-	<hr> 
+	<hr>
 
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
@@ -186,7 +224,7 @@
 		</div>
 		</div>
 		</div>
-  	  </div>  
+  	  </div>
 	<div class="row justify-content-md-center">
 	    <div class="col-md-auto">
 		<div class="border border-info shadow rounded h-100">

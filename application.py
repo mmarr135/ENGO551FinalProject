@@ -35,6 +35,13 @@ engine = create_engine(os.getenv("DATABASE_URL")) #Already preset as enviro vari
 db = scoped_session(sessionmaker(bind=engine)) #main object to run SQL commands
 
 
+def communitybound(name):
+    x="https://data.calgary.ca/resource/surr-xmvs.geojson?name="
+    query=x+name
+    bound=requests.get(query)
+    bounds=bound.json()
+    return [bounds]
+
 #---------------------------------------------------------------------
 # --------------- HOMEPAGE ---------------
 
@@ -138,7 +145,7 @@ def logout():
     session.pop("user", None) #remove session, log out
     session.pop("book", None) #remove session data
 
-    return render_template("userlogout.html", username = username) #load book search page
+    return render_template("userlogout.html", username = username)
 
 
 #---------------------------------------------------------------------
@@ -149,19 +156,21 @@ def calgarycommunityhousingmap():
 
     #retrieve session info
     username = session["user"]
+    bound=None
+    # retrieves list of communities for dropdown selection
+    communities = db.execute("SELECT name FROM communities WHERE (class = 'Residential')").fetchall()
+    communities=[i[0] for i in communities]
 
-    return render_template("calgarycommunityhousingmap.html", username = username) #load book search page
+    # retrieves user selected community, gets bounds for map
+    if request.method == 'POST':
+        selectedcommunity = request.form.get("community")
+    if selectedcommunity is not None:
+        bound=communitybound(selectedcommunity)
+
+    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound)
 
 
 #---------------------------------------------------------------------
 # --------------- API ENDPOINT CODE ---------------
 
 # Put API Endpoint page like books lab here
-
-
-
-
-
-
-
-
