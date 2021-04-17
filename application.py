@@ -42,6 +42,23 @@ def communitybound(name):
     bounds=bound.json()
     return [bounds]
 
+def propertyvalue(commname):
+    x="https://data.calgary.ca/resource/qwrb-nw8u.json?$where=COMM_NAME='"
+    y=x+commname
+    query=y+"'&ASSESSMENT_CLASS_DESCRIPTION='Residential'&$select=assessed_value"
+    values=requests.get(query)
+    values=values.json()
+    valuelist=[]
+    for i in values:
+        valuelist.append(i['assessed_value'])
+    total=0
+    for i in valuelist:
+        num=int(i)
+        total=total+num
+    ave=total/len(valuelist)
+    return [ave]
+
+
 #---------------------------------------------------------------------
 # --------------- HOMEPAGE ---------------
 
@@ -157,17 +174,23 @@ def calgarycommunityhousingmap():
     #retrieve session info
     username = session["user"]
     bound=None
+    value=None
     # retrieves list of communities for dropdown selection
-    communities = db.execute("SELECT name FROM communities WHERE (class = 'Residential')").fetchall()
-    communities=[i[0] for i in communities]
-
+    query="https://data.calgary.ca/resource/surr-xmvs.json?$where=class='Residential'&$select=name"
+    communities=requests.get(query)
+    communities=communities.json()
+    comm=[]
+    for i in communities:
+        comm.append(i['name'])
+    communities=sorted(comm)
     # retrieves user selected community, gets bounds for map
     if request.method == 'POST':
         selectedcommunity = request.form.get("community")
     if selectedcommunity is not None:
         bound=communitybound(selectedcommunity)
+        value=propertyvalue(selectedcommunity)
 
-    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound)
+    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value)
 
 
 #---------------------------------------------------------------------

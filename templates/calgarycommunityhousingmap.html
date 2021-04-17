@@ -34,6 +34,10 @@
     width: inherit;
 }
 
+h3 {
+	  text-align: center;
+}
+
 </style>
 
 <body class="border border-5 border-info m-3 pb-3 shadow">
@@ -76,6 +80,11 @@
 						<button class="btn btn-primary"> Submit </button>
     </div>
 </form>
+
+{% if selectedcommunity is not none %}
+<h3> The average residential property value in {{selectedcommunity}} is ${{value[0]}}</h3>
+{% endif %}
+
 
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;"></table>
@@ -140,10 +149,6 @@ console.log(bound)
 	});
 
 	</script>
-
-
-
-
 
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
