@@ -35,6 +35,27 @@ engine = create_engine(os.getenv("DATABASE_URL")) #Already preset as enviro vari
 db = scoped_session(sessionmaker(bind=engine)) #main object to run SQL commands
 
 
+def emsstations():
+    query="https://data.calgary.ca/resource/s6f4-ijrf.geojson"
+    stat=requests.get(query)
+    stations=stat.json()
+    return [stations]
+
+# FUNCTION FOR FIRE STATIONS API
+def firestations():
+    query="https://data.calgary.ca/resource/cqsb-2hhg.geojson"
+    stat=requests.get(query)
+    stations=stat.json()
+    return [stations]
+
+# FUNCTION FOR POLICE STATIONS API
+def policestations():
+    query="https://data.calgary.ca/resource/ap4r-bav3.geojson"
+    stat=requests.get(query)
+    stations=stat.json()
+    return [stations]
+
+# FUNCTION FOR COMMUNITY BOUNDARY API
 def communitybound(name):
     x="https://data.calgary.ca/resource/surr-xmvs.geojson?name="
     query=x+name
@@ -42,10 +63,11 @@ def communitybound(name):
     bounds=bound.json()
     return [bounds]
 
+# FUNCTION FOR COMMUNITY PROPERTY VALUE AND COMMUNITY CODE API
 def propertyvalue(commname):
     x="https://data.calgary.ca/resource/qwrb-nw8u.json?$where=COMM_NAME='"
     y=x+commname
-    query=y+"'&ASSESSMENT_CLASS_DESCRIPTION='Residential'&$select=assessed_value"
+    query=y+"'&ASSESSMENT_CLASS_DESCRIPTION='Residential'&$select=assessed_value,COMM_CODE"
     values=requests.get(query)
     values=values.json()
     valuelist=[]
@@ -55,8 +77,16 @@ def propertyvalue(commname):
     for i in valuelist:
         num=int(i)
         total=total+num
-    ave=total/len(valuelist)
-    return [ave]
+    if len(valuelist)>0:
+        ave=total/len(valuelist)
+        codelist=[]
+        for i in values:
+            codelist.append(i['COMM_CODE'])
+        code=codelist[0]
+    else:
+        ave=0
+        code=0
+    return [ave, code]
 
 
 #---------------------------------------------------------------------
@@ -175,6 +205,9 @@ def calgarycommunityhousingmap():
     username = session["user"]
     bound=None
     value=None
+    polstations=None
+    fstations=None
+    ems=None
     # retrieves list of communities for dropdown selection
     query="https://data.calgary.ca/resource/surr-xmvs.json?$where=class='Residential'&$select=name"
     communities=requests.get(query)
@@ -183,14 +216,16 @@ def calgarycommunityhousingmap():
     for i in communities:
         comm.append(i['name'])
     communities=sorted(comm)
-    # retrieves user selected community, gets bounds for map
+    # retrieves user selected community, gets bounds for map, average property value
     if request.method == 'POST':
         selectedcommunity = request.form.get("community")
     if selectedcommunity is not None:
         bound=communitybound(selectedcommunity)
-        value=propertyvalue(selectedcommunity)
-
-    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value)
+        [value, code]=propertyvalue(selectedcommunity)
+        polstations=policestations()
+        fstations=firestations()
+        ems=emsstations()
+    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value, polstations=polstations, firestations=fstations, ems=ems)
 
 
 #---------------------------------------------------------------------

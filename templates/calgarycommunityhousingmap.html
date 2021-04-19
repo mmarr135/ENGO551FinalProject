@@ -14,8 +14,7 @@
 	<!-- Content for Mapbox and Turf -->
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
 	<script src='https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
-	<script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
-
+	<script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
 
 </head>
 
@@ -82,7 +81,7 @@ h3 {
 </form>
 
 {% if selectedcommunity is not none %}
-<h3> The average residential property value in {{selectedcommunity}} is ${{value[0]}}</h3>
+<h3> The average residential property value in {{selectedcommunity}} is ${{value}}</h3>
 {% endif %}
 
 
@@ -115,7 +114,6 @@ h3 {
 
 var bound={{bound|tojson}};
 
-console.log(bound)
 
 		map.on('load', function () {
 	// Add a data source containing GeoJSON data.
@@ -146,9 +144,41 @@ console.log(bound)
 	'line-width': 3
 	}
 	});
-	});
 
-	</script>
+
+	cent=turf.centerOfMass(bound[0])
+
+new mapboxgl.Marker()
+    .setLngLat(cent.geometry.coordinates)
+			.setPopup(new mapboxgl.Popup().setHTML("Center of the Community"))
+    .addTo(map);
+
+var polstations={{polstations|tojson}};
+nearestpolice=turf.nearestPoint(cent, polstations[0])
+polname=nearestpolice.properties.name
+new mapboxgl.Marker()
+    .setLngLat(nearestpolice.geometry.coordinates)
+		.setPopup(new mapboxgl.Popup().setHTML("Nearest Police Station: "+polname))
+    .addTo(map);
+
+var firestations={{firestations|tojson}};
+nearestfire=turf.nearestPoint(cent, firestations[0])
+firename=nearestfire.properties.name
+new mapboxgl.Marker()
+    .setLngLat(nearestfire.geometry.coordinates)
+		.setPopup(new mapboxgl.Popup().setHTML("Nearest Fire Station: "+firename))
+    .addTo(map);
+
+var emsstations={{ems|tojson}};
+nearestems=turf.nearestPoint(cent, emsstations[0])
+emsname=nearestems.properties.name
+new mapboxgl.Marker()
+    .setLngLat(nearestems.geometry.coordinates)
+		.setPopup(new mapboxgl.Popup().setHTML("Nearest EMS Station: "+emsname))
+    .addTo(map);
+
+	});
+</script>
 
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
