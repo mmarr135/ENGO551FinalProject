@@ -112,8 +112,9 @@ h3 {
 		  zoom: 10
 		});
 
-var bound={{bound|tojson}};
 
+// COMMUNITY BOUNDARY
+var bound={{bound|tojson}};
 
 		map.on('load', function () {
 	// Add a data source containing GeoJSON data.
@@ -145,37 +146,249 @@ var bound={{bound|tojson}};
 	}
 	});
 
+// CENTROID OF COMMUNITY
+cent=turf.centerOfMass(bound[0])
 
-	cent=turf.centerOfMass(bound[0])
 
-new mapboxgl.Marker()
-    .setLngLat(cent.geometry.coordinates)
-			.setPopup(new mapboxgl.Popup().setHTML("Center of the Community"))
-    .addTo(map);
-
+// NEAREST POLICE STATION
 var polstations={{polstations|tojson}};
 nearestpolice=turf.nearestPoint(cent, polstations[0])
-polname=nearestpolice.properties.name
-new mapboxgl.Marker()
-    .setLngLat(nearestpolice.geometry.coordinates)
-		.setPopup(new mapboxgl.Popup().setHTML("Nearest Police Station: "+polname))
-    .addTo(map);
+map.addSource('police', {
+	'type': 'geojson',
+	'data': nearestpolice
+});
 
+map.addLayer({
+'id': 'police',
+'type': 'symbol',
+'source': 'police',
+layout: {
+	'icon-image': 'police-15',
+},
+paint: { }
+});
+
+map.on('click', 'police', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.name;
+
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+map.on('mouseenter', 'police', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'police', function () {
+map.getCanvas().style.cursor = '';
+});
+
+
+
+// NEAREST FIRE STATION
 var firestations={{firestations|tojson}};
 nearestfire=turf.nearestPoint(cent, firestations[0])
-firename=nearestfire.properties.name
-new mapboxgl.Marker()
-    .setLngLat(nearestfire.geometry.coordinates)
-		.setPopup(new mapboxgl.Popup().setHTML("Nearest Fire Station: "+firename))
-    .addTo(map);
+map.addSource('fire', {
+	'type': 'geojson',
+	'data': nearestfire
+});
+
+map.addLayer({
+'id': 'fire',
+'type': 'symbol',
+'source': 'fire',
+layout: {
+	'icon-image': 'fire-station-15',
+},
+paint: { }
+});
+
+map.on('click', 'fire', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.name;
+
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+map.on('mouseenter', 'fire', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'fire', function () {
+map.getCanvas().style.cursor = '';
+});
+
 
 var emsstations={{ems|tojson}};
 nearestems=turf.nearestPoint(cent, emsstations[0])
-emsname=nearestems.properties.name
-new mapboxgl.Marker()
-    .setLngLat(nearestems.geometry.coordinates)
-		.setPopup(new mapboxgl.Popup().setHTML("Nearest EMS Station: "+emsname))
-    .addTo(map);
+map.addSource('ems', {
+	'type': 'geojson',
+	'data': nearestems
+});
+
+map.addLayer({
+'id': 'ems',
+'type': 'symbol',
+'source': 'ems',
+layout: {
+	'icon-image': 'hospital-15',
+},
+paint: { }
+});
+
+map.on('click', 'ems', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.name;
+
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+map.on('mouseenter', 'ems', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'ems', function () {
+map.getCanvas().style.cursor = '';
+});
+
+var hospitals={{h|tojson}};
+nearesthosp=turf.nearestPoint(cent, hospitals[0])
+map.addSource('hospital', {
+	'type': 'geojson',
+	'data': nearesthosp
+});
+
+map.addLayer({
+'id': 'hospital',
+'type': 'symbol',
+'source': 'hospital',
+layout: {
+	'icon-image': 'doctor-15',
+},
+paint: { }
+});
+
+map.on('click', 'hospital', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.name;
+
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+map.on('mouseenter', 'hospital', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'hospital', function () {
+map.getCanvas().style.cursor = '';
+});
+
+var p={{p|tojson}};
+var parks=p[0]
+var features=[]
+for (var i = 0; i < parks.features.length; i++)
+{
+features.push(turf.centerOfMass(parks.features[i]))
+}
+parkcollection=turf.featureCollection(features)
+parksincomm=turf.pointsWithinPolygon(parkcollection, bound[0])
+
+map.addSource('parks', {
+'type': 'geojson',
+'data': parksincomm
+});
+
+// Add a new layer to visualize the symbol.
+map.addLayer({
+'id': 'parks',
+'type': 'symbol',
+'source': 'parks', // reference the data source
+layout: {
+	'icon-image': 'park-11',
+	'icon-allow-overlap': true
+},
+paint: { }
+});
+
+var schools={{s|tojson}};
+
+schoolsincomm=turf.pointsWithinPolygon(schools[0], bound[0])
+
+map.addSource('schools', {
+'type': 'geojson',
+'data': schoolsincomm
+});
+
+// Add a new layer to visualize the symbol.
+map.addLayer({
+'id': 'schools',
+'type': 'symbol',
+'source': 'schools', // reference the data source
+layout: {
+	'icon-image': 'college-11',
+	'icon-allow-overlap': true
+},
+paint: { }
+});
+
+
+
+map.on('click', 'schools', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.name_ab;
+
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+
+map.on('mouseenter', 'schools', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+
+map.on('mouseleave', 'schools', function () {
+map.getCanvas().style.cursor = '';
+});
+
 
 	});
 </script>
@@ -186,9 +399,7 @@ new mapboxgl.Marker()
 
 
 	<div style="text-align:center">
-		<h6><b> Map Legend Details here </b></h6>
-		<h6> Can throw Results into a Bootstrap Table Too to make sure site looks nice? </h6>
-		<h6> For example, table below for legend (mock up) - maybe can show results nicely in a table too? </h6>
+		<h6><b> Map Legend Details</b></h6>
 	</div>
 
 
@@ -211,19 +422,37 @@ new mapboxgl.Marker()
 		      <th scope="row">
 			<img src="https://camo.githubusercontent.com/f2889eadada094c8c47a469ef3dd08290fa75c069ca3bb900bd2be3a9d4c778e/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f636f6c6c6567652d31352e737667" width="30%">
 		      </th>
-		      <td>Nearest Location of School</td>
-		    </tr>
-		    <tr>
-		      <th scope="row">
-			<img src="https://camo.githubusercontent.com/e9581daa5654d13d9ceee13b2d9ee8885a2d73d93e7a065234e2c53d5f1aff3f/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f666972652d73746174696f6e2d31352e737667" width="30%">
-			</th>
-		      <td>Nearest Location of Fire Station</td>
+		      <td>Schools Within Community</td>
 		    </tr>
 		    <tr>
 		      <th scope="row">
 			<img src="https://camo.githubusercontent.com/3ced548396ac9791afd482f524d7a4b348dc616a2c7230b70b0b497dd5094c72/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f7061726b2d31352e737667" width="30%">
 			</th>
-		      <td>Nearest Park Location</td>
+		    <td>City Maintained Park Locations</td>
+		    </tr>
+		    <tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/e9581daa5654d13d9ceee13b2d9ee8885a2d73d93e7a065234e2c53d5f1aff3f/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f666972652d73746174696f6e2d31352e737667" width="30%">
+			</th>
+			 <td>Nearest Fire Station</td>
+		    </tr>
+				<tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/37d12558de83101eea4133135aeaf8dbf8f7503021fcf1394ab6cf0e4c730b3d/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f706f6c6963652d31352e737667" width="30%">
+			</th>
+			 <td>Nearest Police Station</td>
+		    </tr>
+				<tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/85f98092dd62f9fab49aa1d6000e3cc79f16b2d4409bf0dfcbc0c4246a031ace/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f686f73706974616c2d31352e737667" width="30%">
+			</th>
+			 <td>Nearest EMS Station</td>
+		    </tr>
+				<tr>
+		      <th scope="row">
+			<img src="https://camo.githubusercontent.com/588b47777d62c3778bb14e12cae4868f999a93b49db1547789e8d49d28ab8cf5/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f646f63746f722d31352e737667" width="30%">
+			</th>
+			 <td>Nearest Hospital</td>
 		    </tr>
 		  </tbody>
 		</table>
@@ -309,7 +538,7 @@ new mapboxgl.Marker()
 	<table class="mx-auto w-auto" style="height: 20px;">
 	</table>
 
-	<a href="#TopOfPage" class="text-secondary">Click to Return to Top of WebPage</a>
+	<a href="#TopOfPage" class="text-secondary">Click to Return to Top of Webpage</a>
 	</div>
 
 

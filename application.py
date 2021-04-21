@@ -34,6 +34,23 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL")) #Already preset as enviro variable
 db = scoped_session(sessionmaker(bind=engine)) #main object to run SQL commands
 
+def schools():
+    query="https://data.calgary.ca/resource/fd9t-tdn2.geojson"
+    s=requests.get(query)
+    schools=s.json()
+    return[schools]
+
+def parks():
+    query="https://data.calgary.ca/resource/kami-qbfh.geojson"
+    p=requests.get(query)
+    parks=p.json()
+    return[parks]
+
+def hospitals():
+    query="https://data.calgary.ca/resource/x34e-bcjz.geojson?type=Hospital"
+    hosp=requests.get(query)
+    hospitals=hosp.json()
+    return [hospitals]
 
 def emsstations():
     query="https://data.calgary.ca/resource/s6f4-ijrf.geojson"
@@ -87,8 +104,6 @@ def propertyvalue(commname):
         ave=0
         code=0
     return [ave, code]
-
-
 #---------------------------------------------------------------------
 # --------------- HOMEPAGE ---------------
 
@@ -208,6 +223,9 @@ def calgarycommunityhousingmap():
     polstations=None
     fstations=None
     ems=None
+    h=None
+    p=None
+    s=None
     # retrieves list of communities for dropdown selection
     query="https://data.calgary.ca/resource/surr-xmvs.json?$where=class='Residential'&$select=name"
     communities=requests.get(query)
@@ -225,7 +243,10 @@ def calgarycommunityhousingmap():
         polstations=policestations()
         fstations=firestations()
         ems=emsstations()
-    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value, polstations=polstations, firestations=fstations, ems=ems)
+        h=hospitals()
+        p=parks()
+        s=schools()
+    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value, polstations=polstations, firestations=fstations, ems=ems, h=h, p=p, s=s)
 
 
 #---------------------------------------------------------------------
