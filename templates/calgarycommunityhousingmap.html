@@ -33,7 +33,7 @@
     width: inherit;
 }
 
-h3 {
+h3, h5 {
 	  text-align: center;
 }
 
@@ -71,7 +71,7 @@ h3 {
 	<div style="text-align:center">
 		<h4><b>Please use the search menu below to search for a Calgary community you would like to investigate</b></h3>
 	</div>
-	
+
 <!-- Opening Container Information for the Search Bar -->
 <div class="container">
 	<div class="row justify-content-md-center">
@@ -79,8 +79,8 @@ h3 {
 		<div class="border border-info shadow rounded h-100">
 	       <div class="alert alert-secondary h-100" role="alert">
 		<div style="text-align:center">
-	
-	
+
+
 <form method="POST" action="{{ url_for('calgarycommunityhousingmap')}}">
 	<div class="form-group">
             <select class="form-control" name="community">
@@ -93,20 +93,23 @@ h3 {
 						<button class="btn btn-primary"> Submit </button>
     </div>
 </form>
-			
-<!-- Closing Container Information for the Search Bar -->		
+
+<!-- Closing Container Information for the Search Bar -->
 		</div>
 		</div>
 		</div>
   	  </div>
-	</div>		
-		
+	</div>
+
 	<!-- Creating a break in the page -->
 	<table class="mx-auto w-auto" style="height: 50px;">
 	</table>
-	
+
 {% if selectedcommunity is not none %}
 <h3> The average residential property value in {{selectedcommunity}} is ${{value}}</h3>
+
+<h5> Click on the map to estimate the commute time from {{selectedcommunity}} to that location</h5>
+
 {% endif %}
 
 
@@ -439,15 +442,16 @@ map.on('click', function(e) {
 	}
 	request.send()
 });
-		
+
+
 // FLOODS
 var floods={{floods|tojson}};
 var polygon1=turf.polygon(bound[0].features[0].geometry.coordinates)
 var intersections=[]
 var inn=[]
 var i
-for (i=0;i<1000;i++){	
-					
+for (i=0;i<1000;i++){
+
 	var polygon2=turf.polygon(floods.features[i].geometry.coordinates)
 	var intersection = turf.intersect(polygon1, polygon2)
 	if(intersection!=null){
@@ -460,18 +464,63 @@ for (i=0;i<1000;i++){
 var name
 for (k=0;k<inn.length;k++){
 	if (inn[k]==true){
-		name="Yes"				
+		name="Yes"
 	}
-					
+
 }
-for (j=0;j<10;j++){
-	new mapboxgl.Marker()
-	.setLngLat([intersections[j][0],intersections[j][1]])
-	.setPopup(new mapboxgl.Popup().setHTML("Flood Area")).addTo(map)
-}		
-		
-		
-	});
+map.addSource('flood', {
+type: 'geojson',
+data: {
+"type": "FeatureCollection",
+"features": [{
+"type": "Feature",
+"properties": {},
+"geometry": {
+"type": "Point",
+"coordinates": [intersections[0][0],
+intersections[0][1]
+]
+}
+}]
+}
+});
+
+map.addLayer({
+'id': 'flood',
+'type': 'symbol',
+'source': 'flood', // reference the data source
+layout: {
+	'icon-image': 'information-15',
+	'icon-allow-overlap': true
+},
+paint: { }
+});
+
+
+map.on('click', 'flood', function (e) {
+var coordinates = e.features[0].geometry.coordinates.slice();
+
+while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+}
+
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML("Flood Prone Area")
+.addTo(map);
+});
+
+map.on('mouseenter', 'flood', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+
+map.on('mouseleave', 'flood', function () {
+map.getCanvas().style.cursor = '';
+});
+
+
+}); // end of map load
 </script>
 
 	<!-- Creating a break in the page -->
@@ -537,7 +586,7 @@ for (j=0;j<10;j++){
 		    </tr>
 			 <tr>
 			<th scope="row">
-				<img src="https://www.kindpng.com/picc/m/465-4658093_map-marker-animated-gif-hd-png-download.png" width="30%">
+				<img src="https://camo.githubusercontent.com/0967e8b0f61cbe6c394974dd4548aa788776ef0581652b4c6e308d7f3bce37eb/68747470733a2f2f63646e2e7261776769742e636f6d2f6d6170626f782f6d6170626f782d676c2d7374796c65732f6d61737465722f737072697465732f6272696768742d76392f5f7376672f696e666f726d6174696f6e2d31352e737667" width="30%">
 			</th>
 			<td>Flood Prone Area</td>
 			</tr>
@@ -547,35 +596,14 @@ for (j=0;j<10;j++){
 	</div>
 	<!-- ******* End Map Information (Closing Style Buttons Below) ******* -->
 
-	
-	
-	<table class="mx-auto w-auto" style="height: 50px;">
-	</table>
 
-	<div class="container">
-	<div class="row justify-content-md-center">
-	    <div class="col-md-auto">
-		<div class="border border-info shadow rounded h-100">
-	       <div class="alert alert-secondary h-100" role="alert">
-		<div style="text-align:center">
-                        <p class="font-weight-bold">Obtain API for Searched Results?</p>
-			<p>Click here for API Info</p>
-			<form action = "{{url_for('APIroute') }}" method="post">
-				<div>
-				<button> Get API! </button>
-				</div>
-			</form>
-		</div>
-		</div>
-		</div>
-  	  </div>
-	</div>
+
 
 
 	<table class="mx-auto w-auto" style="height: 50px;">
 	</table>
 
-	
+
 	<hr>
 
 	<!-- Creating a break in the page -->
