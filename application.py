@@ -246,7 +246,7 @@ def calgarycommunityhousingmap():
         h=hospitals()
         p=parks()
         s=schools()
-        
+
     data='https://data.calgary.ca/resource/ntse-tznh.geojson'
     floods=requests.get(data)
     floods=floods.json()
@@ -256,4 +256,12 @@ def calgarycommunityhousingmap():
 #---------------------------------------------------------------------
 # --------------- API ENDPOINT CODE ---------------
 
-# Put API Endpoint page like books lab here
+@app.route("/api/<selectedcommunity>")
+def community_api(selectedcommunity):
+    [value, code]=propertyvalue(selectedcommunity)
+    if value==0:
+        return jsonify({"error": "Invalid Community"}), 404
+    return jsonify({
+    "averagePropertyValue": value,
+    "communityCode": code
+    })
