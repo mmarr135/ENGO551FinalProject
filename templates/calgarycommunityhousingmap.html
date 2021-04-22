@@ -389,6 +389,32 @@ map.on('mouseleave', 'schools', function () {
 map.getCanvas().style.cursor = '';
 });
 
+var commmarker=new mapboxgl.Marker()
+// Estimates COMMUTE FROM COMMUNITY CENTER TO CLICKED POINT
+map.on('click', function(e) {
+	var lonlat=e.lngLat
+	var lon=lonlat.lng
+	var lat=lonlat.lat
+	var request = new XMLHttpRequest()
+	var x='https://api.mapbox.com/directions-matrix/v1/mapbox/driving-traffic/'
+	var y=lon+','+lat+';'+cent.geometry.coordinates
+	var z='?approaches=curb;curb&access_token=pk.eyJ1IjoibW1hcnIiLCJhIjoiY2tsaDljcm1oMjI0eDJ3bzMwY2xpeW9tbiJ9.f-kfWu0AkUBK6aU396cUTQ'
+	var apirequest=x+y+z
+	request.open('GET', apirequest, true)
+	request.onload = function () {
+	  // Begin accessing JSON data
+	  var data = JSON.parse(this.response)
+		var commute1=data.durations[0][1]
+		var commute2=data.durations[1][0]
+		var commute=((commute1+commute2)/2)/60
+		commmarker.setLngLat(e.lngLat)
+		commmarker.setPopup(new mapboxgl.Popup().setHTML("The estimated commute driving from the selected community to this location is "+commute.toPrecision(3)+" Minutes"))
+		commmarker.addTo(map)
+		commmarker.togglePopup();
+	}
+	request.send()
+});
+
 
 	});
 </script>
@@ -458,12 +484,6 @@ map.getCanvas().style.cursor = '';
 		</table>
 		</div>
 	</div>
-
-
-
-
-
-
 	<!-- ******* End Map Information (Closing Style Buttons Below) ******* -->
 
 	<hr>
