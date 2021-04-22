@@ -121,11 +121,11 @@ Information on the Map:
 
 Once a community is selected from the dropdown form, the map will update with information:
 
--The selected community boundary will be highlighted and outlined
--The nearest hospital, EMS, Police, and Fire stations to the community will appear as markers
--Parks and Schools within the community will appear as markers
--A marker will appear if a community contains a flood prone region
--A user can estimate the commute time driving from the selected community to any location by clicking the map, a popup will be generated indicating the time in minutes
+- The selected community boundary will be highlighted and outlined
+- The nearest hospital, EMS, Police, and Fire stations to the community will appear as markers
+- Parks and Schools within the community will appear as markers
+- A marker will appear if a community contains a flood prone region
+- A user can estimate the commute time driving from the selected community to any location by clicking the map, a popup will be generated indicating the time in minutes
 
 
 
