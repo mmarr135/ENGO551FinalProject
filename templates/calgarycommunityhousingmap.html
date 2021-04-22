@@ -68,6 +68,19 @@ h3 {
 
 	<!-- ******* Start Map Information ******* -->
 
+	<div style="text-align:center">
+		<h4><b>Please use the search menu below to search for a Calgary community you would like to investigate</b></h3>
+	</div>
+	
+<!-- Opening Container Information for the Search Bar -->
+<div class="container">
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+	
+	
 <form method="POST" action="{{ url_for('calgarycommunityhousingmap')}}">
 	<div class="form-group">
             <select class="form-control" name="community">
@@ -76,10 +89,22 @@ h3 {
   									<option>{{community}}</option>
 									{% endfor %}
             </select>
+					<table class="mx-auto w-auto" style="height: 20px;"></table>
 						<button class="btn btn-primary"> Submit </button>
     </div>
 </form>
-
+			
+<!-- Closing Container Information for the Search Bar -->		
+		</div>
+		</div>
+		</div>
+  	  </div>
+	</div>		
+		
+	<!-- Creating a break in the page -->
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+	
 {% if selectedcommunity is not none %}
 <h3> The average residential property value in {{selectedcommunity}} is ${{value}}</h3>
 {% endif %}
@@ -486,6 +511,35 @@ map.on('click', function(e) {
 	</div>
 	<!-- ******* End Map Information (Closing Style Buttons Below) ******* -->
 
+	
+	
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	<div class="container">
+	<div class="row justify-content-md-center">
+	    <div class="col-md-auto">
+		<div class="border border-info shadow rounded h-100">
+	       <div class="alert alert-secondary h-100" role="alert">
+		<div style="text-align:center">
+                        <p class="font-weight-bold">Obtain API for Searched Results?</p>
+			<p>Click here for API Info</p>
+			<form action = "{{url_for('APIroute') }}" method="post">
+				<div>
+				<button> Get API! </button>
+				</div>
+			</form>
+		</div>
+		</div>
+		</div>
+  	  </div>
+	</div>
+
+
+	<table class="mx-auto w-auto" style="height: 50px;">
+	</table>
+
+	
 	<hr>
 
 	<!-- Creating a break in the page -->
