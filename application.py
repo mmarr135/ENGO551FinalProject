@@ -246,7 +246,11 @@ def calgarycommunityhousingmap():
         h=hospitals()
         p=parks()
         s=schools()
-    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value, polstations=polstations, firestations=fstations, ems=ems, h=h, p=p, s=s)
+        
+    data='https://data.calgary.ca/resource/ntse-tznh.geojson'
+    floods=requests.get(data)
+    floods=floods.json()
+    return render_template("calgarycommunityhousingmap.html", username = username, communities=communities, selectedcommunity=selectedcommunity, bound=bound, value=value, polstations=polstations, firestations=fstations, ems=ems, h=h, p=p, s=s,floods=floods)
 
 
 #---------------------------------------------------------------------
