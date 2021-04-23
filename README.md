@@ -128,6 +128,9 @@ Once a community is selected from the dropdown form, the map will update with in
 - A user can estimate the commute time driving from the selected community to any location by clicking the map, a popup will be generated indicating the time in minutes
 
 
+VIDEO LINK: https://drive.google.com/file/d/1mf8uqTWTHZuUfshXbCVpCvlXjHKPDMMO/view?usp=sharing
+
+
 
 
 
